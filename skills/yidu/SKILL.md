@@ -32,7 +32,21 @@ Default translation settings:
 2. Confirm the user has the right to translate it. Never remove DRM or bypass encryption. For EPUB, stop when `META-INF/encryption.xml` indicates protected content.
 3. Preserve the original file. Work only in a sibling `<stem>_translation_work/` directory and write output beside the source.
 4. Warn that cloud model processing is used through Codex and that the result is not publication-grade without human editing.
-5. Prepare the exact upstream revision before running it. Use `scripts/ensure_upstream.py`; never silently use a moving branch.
+5. Before opening the book, run the bundled runtime bootstrap through `scripts/run_runtime.py`. It prepares the fixed upstream commit, the per-user virtual environment, and the PDF-only dependencies when needed. Never silently use a moving branch.
+
+The bootstrap is idempotent and writes only below `$CODEX_HOME/runtimes/yidu/<commit>` (or `BOOK_TRANSLATOR_RUNTIME`). It never uses `sudo`, changes system Python, or edits global PATH. A PDF first run can download a large Docling/PyTorch runtime and a private Pandoc 3.1.12 binary; tell the user before the download starts.
+
+For upstream commands, use this shape and do not assemble a venv or PATH manually:
+
+```bash
+python "$YIDU_SKILL/scripts/run_runtime.py" \
+  --book "$BOOK" \
+  -- make_book.py \
+  --book_name "$BOOK" \
+  ...upstream arguments...
+```
+
+The wrapper selects the EPUB or PDF profile from the input, runs the upstream command with its venv Python, and exposes the private Pandoc binary only to that process.
 
 Read [references/workflow.md](references/workflow.md) for the exact EPUB/PDF command sequences and checkpoints. Read [references/glossary-format.md](references/glossary-format.md) when creating or validating a book glossary. Read [references/translation-prompt.md](references/translation-prompt.md) when constructing the Taiwan-style prompt.
 
@@ -55,7 +69,7 @@ After translation, run `scripts/check_glossary_consistency.py` against the outpu
 
 Follow the upstream `bbm-plan` flow:
 
-1. Prepare the pinned runtime and read the upstream EPUB reference files.
+1. Run `run_runtime.py` with the EPUB input and wait for the base runtime health check to pass.
 2. Run the offline plan/classification pass. Review every unresolved structural signature; translate prose, headings, dialogue, captions, and poetry, while skipping code, URLs, page furniture, and decorative markers when justified by samples.
 3. Run a small smoke translation after the glossary is confirmed. Read an early and late sample before authorizing the full run.
 4. Run the full translation quietly in the background with the same settings and resume support. Use `--resume` only after a cache exists or after a smoke run.
@@ -70,7 +84,7 @@ Use these output names unless the user specifies another path:
 
 PDF input always uses the upstream `--to-epub` route and produces a reflowable EPUB, not a page-faithful PDF. Do not promise preservation of the original page layout.
 
-1. Check the PDF extra and Pandoc before opening the document.
+1. Run `run_runtime.py` with the PDF input. It completes the full PDF dependency health check, including Docling, OCR modules, PyTorch, and Pandoc, before the PDF is opened or any model request is made.
 2. Extract and translate the first two pages as a preview; inspect `source.md` headings and extraction quality before the full run.
 3. For a text PDF, continue with the normal Codex/session route and confirmed glossary.
 4. For a scan, stop at the OCR warning and ask for confirmation. Use `--pdf-ocr --ocr-lang iso:en` for an English scan. Use `--ocr-replace-layer` only when the embedded text layer is demonstrably wrong, not merely invisible.

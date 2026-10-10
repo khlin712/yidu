@@ -1,22 +1,46 @@
-# Runtime and workflow
+# Yidu runtime and workflow
 
-The skill uses the pinned upstream revision:
+Yidu uses the fixed upstream revision:
 
 - repository: `https://github.com/yihong0618/bilingual_book_maker.git`
 - commit: `e1027a4823e98f668ef950740b6f805ec30bd3b2`
-- prepare with: `python /path/to/skill/scripts/ensure_upstream.py --print-root`
+- Pandoc: `3.1.12` for the private PDF runtime when no suitable system Pandoc exists
 
-The first setup may need the upstream Python dependencies. Keep them in the
-upstream runtime environment; do not install packages into the user's system
-Python without explaining the change. The Codex route uses the user's existing
-Codex login and does not put an API key on the command line.
+## Runtime preparation
+
+Always prepare the runtime before reading the user's book. The wrapper is
+idempotent and handles the dependency profile:
+
+```bash
+python "$YIDU_SKILL/scripts/run_runtime.py" \
+  --book "$BOOK" \
+  -- make_book.py --help
+```
+
+For an EPUB it installs the fixed base requirements. For a PDF it additionally
+installs the fixed CPU-safe PDF requirements and prepares Pandoc 3.1.12. The
+runtime lives under `$CODEX_HOME/runtimes/yidu/<commit>` (or the directory
+selected by `BOOK_TRANSLATOR_RUNTIME`), never in system Python and never in the
+book's work directory.
+
+If the user needs a read-only diagnostic, use:
+
+```bash
+python "$YIDU_SKILL/scripts/ensure_runtime.py" \
+  --book "$BOOK" --check --json
+```
+
+Do not run `pip install` manually, activate a shell environment, or add a
+permanent PATH entry. The wrapper supplies the correct venv and Pandoc path.
 
 ## EPUB
 
-Use a confirmed glossary rendered by `scripts/render_glossary.py`:
+Use the confirmed glossary rendered by `scripts/render_glossary.py`:
 
 ```bash
-python "$RUNTIME/make_book.py" \
+python "$YIDU_SKILL/scripts/run_runtime.py" \
+  --book "$BOOK" \
+  -- make_book.py \
   --book_name "$BOOK" \
   --api_format codex \
   --language "zh-hant:Traditional Chinese" \
@@ -40,11 +64,13 @@ The upstream may use its own output suffix. Validate that file first with
 
 ## PDF
 
-PDF translation is a reflowable EPUB conversion. Check the PDF extra and
-Pandoc before opening the file. Always do a two-page extraction/preview first:
+PDF translation is a reflowable EPUB conversion. The first command must use
+the two-page preview:
 
 ```bash
-python "$RUNTIME/make_book.py" \
+python "$YIDU_SKILL/scripts/run_runtime.py" \
+  --book "$BOOK" \
+  -- make_book.py \
   --book_name "$BOOK" \
   --api_format codex \
   --language "zh-hant:Traditional Chinese" \
@@ -61,5 +87,13 @@ Only add `--ocr-replace-layer` when the embedded layer is visibly wrong. The
 full PDF route reuses extraction and completed translation on rerun; it does
 not use the EPUB `--resume` flow.
 
-For both formats, keep the work directory until the user accepts the output.
-Run the structural validator and glossary consistency report before delivery.
+The runtime health check happens before the PDF parser opens the document and
+before a paid translation request. If the dependency download fails, preserve
+the partial runtime and report the exact retry command; do not delete it or
+start the translation with a weaker fallback.
+
+## Environment and credentials
+
+The Codex route uses the user's existing Codex login. Do not put an API key on
+the command line, in the runtime manifest, or in the repository. The runtime
+manifest contains paths and versions only.

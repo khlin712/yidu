@@ -1,0 +1,8 @@
+.yidu_runtime/
+.venv/
+venv/
+*_translation_work/
+*.epub
+*.pdf
+*.log
+

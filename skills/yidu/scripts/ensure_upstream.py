@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Prepare the pinned bilingual_book_maker checkout used by Yidu."""
+"""Prepare only the pinned upstream checkout.
+
+Kept as a small compatibility helper. New Yidu runs should call
+``ensure_runtime.py`` so the virtual environment and PDF tools are prepared
+automatically as well.
+"""
 
 from __future__ import annotations
 
@@ -9,13 +14,14 @@ import os
 import subprocess
 import sys
 from pathlib import Path
+from typing import Optional, Tuple
 
 
 UPSTREAM_URL = "https://github.com/yihong0618/bilingual_book_maker.git"
 UPSTREAM_COMMIT = "e1027a4823e98f668ef950740b6f805ec30bd3b2"
 
 
-def run(*args: str, cwd: Path | None = None) -> str:
+def run(*args: str, cwd: Optional[Path] = None) -> str:
     result = subprocess.run(
         list(args),
         cwd=cwd,
@@ -32,12 +38,12 @@ def default_root() -> Path:
     if configured:
         return Path(configured).expanduser() / UPSTREAM_COMMIT
     codex_home = Path(os.environ.get("CODEX_HOME", Path.home() / ".codex")).expanduser()
-    return codex_home / "runtimes" / "bilingual_book_maker" / UPSTREAM_COMMIT
+    return codex_home / "runtimes" / "yidu" / UPSTREAM_COMMIT
 
 
-def ensure(root: Path) -> tuple[Path, bool]:
+def ensure(root: Path) -> Tuple[Path, bool]:
     root = root.expanduser().resolve()
-    if (root / ".git").is_dir():
+    if (root / ".git").exists():
         head = run("git", "rev-parse", "HEAD", cwd=root)
         if head == UPSTREAM_COMMIT:
             return root, True
@@ -46,11 +52,11 @@ def ensure(root: Path) -> tuple[Path, bool]:
             "Use a different BOOK_TRANSLATOR_RUNTIME or remove only that runtime."
         )
 
-    if root.exists():
-        raise RuntimeError(f"Runtime path exists but is not a Git checkout: {root}")
+    if root.exists() and any(root.iterdir()):
+        raise RuntimeError(f"Runtime path exists but is not an empty Git checkout: {root}")
 
     root.parent.mkdir(parents=True, exist_ok=True)
-    run("git", "clone", "--no-checkout", UPSTREAM_URL, str(root))
+    run("git", "clone", "--filter=blob:none", "--no-tags", "--no-checkout", UPSTREAM_URL, str(root))
     run("git", "checkout", "--detach", UPSTREAM_COMMIT, cwd=root)
     return root, False
 
