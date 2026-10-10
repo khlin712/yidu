@@ -189,7 +189,11 @@ def install_requirements(python: Path, root: Path, profile: str) -> None:
     for requirement in requirements:
         if not requirement.is_file():
             raise RuntimeErrorMessage(f"固定版本依賴檔不存在：{requirement}")
-        print(f"yidu: 安裝 {requirement.name}（只寫入 {root / 'venv'}）", flush=True)
+        print(
+            f"yidu: 安裝 {requirement.name}（只寫入 {root / 'venv'}）",
+            file=sys.stderr,
+            flush=True,
+        )
         command(
             str(python),
             "-m",
@@ -289,7 +293,11 @@ def download_pandoc(root: Path) -> Tuple[str, str]:
 
     directory.mkdir(parents=True, exist_ok=True)
     url = f"{PANDOC_RELEASE}/{asset}"
-    print(f"yidu: 下載固定版本 Pandoc {PANDOC_VERSION}", flush=True)
+    print(
+        f"yidu: 下載固定版本 Pandoc {PANDOC_VERSION}",
+        file=sys.stderr,
+        flush=True,
+    )
     with tempfile.TemporaryDirectory(prefix="yidu-pandoc-") as temporary:
         archive = Path(temporary) / asset
         try:
