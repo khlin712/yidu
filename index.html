@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#143d3b" />
+    <meta name="description" content="譯讀 Yidu：將英文 EPUB／PDF 翻譯成台灣繁體中文 EPUB，並維持全書術語一致。" />
+    <meta property="og:title" content="譯讀 Yidu｜英文書翻成台灣繁中" />
+    <meta property="og:description" content="在 Codex 中直接翻譯英文 EPUB／PDF，先確認術語，再輸出可閱讀的台灣繁中 EPUB。" />
+    <meta property="og:type" content="website" />
+    <title>譯讀 Yidu｜英文書翻成台灣繁中</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳至主要內容</a>
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a class="brand" href="#top" aria-label="回到譯讀 Yidu 首頁">
+          <span class="brand-mark" aria-hidden="true">譯</span>
+          <span class="brand-copy"><strong>譯讀</strong><small>Yidu</small></span>
+        </a>
+        <nav class="site-nav" aria-label="主要選單">
+          <a href="#how">怎麼用</a>
+          <a href="#features">功能</a>
+          <a href="https://github.com/khlin712/yidu" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="hero-glow" aria-hidden="true"></div>
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">ENGLISH BOOK → 台灣繁體中文</p>
+            <h1>讓一本書，<br /><em>真正讀得下去。</em></h1>
+            <p class="hero-lede">譯讀 Yidu 是一個可以直接從 Codex 呼叫的書籍翻譯 skill。輸入英文 EPUB 或 PDF，先確認關鍵術語，再得到可重排、可閱讀的台灣繁中 EPUB。</p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#install">開始使用</a>
+              <a class="button button-secondary" href="https://github.com/khlin712/yidu" target="_blank" rel="noopener noreferrer">查看 GitHub</a>
+            </div>
+            <p class="microcopy">不提供線上上傳；書籍在你的 Codex 環境中處理。</p>
+          </div>
+          <div class="book-card" aria-label="譯讀功能示意">
+            <div class="card-topline"><span class="status-dot"></span><span>YIDU / TRANSLATION SESSION</span></div>
+            <div class="book-spread">
+              <div class="page page-source"><span class="page-label">ORIGINAL</span><h2>Social<br />self-efficacy</h2><p>…belief in one's ability to perform social behaviours…</p></div>
+              <div class="page page-target"><span class="page-label">台灣繁中</span><h2>社會<br />自我效能</h2><p>術語確認後，全書維持同一譯法。</p></div>
+            </div>
+            <div class="card-footer"><span>EPUB / PDF</span><span>TERM LOCKED ✓</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section install-section" id="install">
+        <div class="container narrow">
+          <p class="section-kicker">01 / INSTALL</p>
+          <h2>在 Codex 安裝，下一句話就能開始。</h2>
+          <p class="section-intro">把下面這段貼進 Codex。安裝完成後，Yidu 會在下一個 turn 可用。</p>
+          <div class="code-box"><code>$skill-installer https://github.com/khlin712/yidu/tree/main/skills/yidu</code><button class="copy-button" data-copy="$skill-installer https://github.com/khlin712/yidu/tree/main/skills/yidu" type="button">複製</button></div>
+          <div class="example-box"><span class="prompt-mark">$yidu</span> 翻譯這本 EPUB 成台灣繁中</div>
+          <p class="small-note">也可以直接說：「把這份 PDF 翻成台灣繁中 EPUB」。</p>
+        </div>
+      </section>
+
+      <section class="section features-section" id="features">
+        <div class="container">
+          <div class="section-heading"><div><p class="section-kicker">02 / WHY YIDU</p><h2>翻譯不只是一句一句換語言。</h2></div><p>書籍需要上下文、術語與結構一起被照顧。</p></div>
+          <div class="feature-grid">
+            <article class="feature-card"><span class="feature-number">01</span><h3>術語先確認</h3><p>例如確認 <code>social self-efficacy</code> 是「社會自我效能」後，同一詞義不漂移成「社交自我效能」。</p></article>
+            <article class="feature-card"><span class="feature-number">02</span><h3>兩種書籍格式</h3><p>EPUB 保留書籍結構；PDF 轉成可重排 EPUB，先檢查文字抽取與掃描品質。</p></article>
+            <article class="feature-card"><span class="feature-number">03</span><h3>Codex 直接執行</h3><p>使用你的 Codex 登入狀態與額度，不需要另外管理翻譯 API key。</p></article>
+            <article class="feature-card"><span class="feature-number">04</span><h3>可中斷、可驗證</h3><p>保留工作目錄與 checkpoint，完成後檢查 EPUB 的目錄、章節、metadata 與術語變體。</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section flow-section" id="how">
+        <div class="container flow-grid">
+          <div><p class="section-kicker">03 / WORKFLOW</p><h2>從原書到可閱讀版本。</h2><p class="section-intro">Yidu 是 Codex 的工作流程，不是把你的書上傳到一個陌生的翻譯網站。</p></div>
+          <ol class="steps"><li><span>01</span><div><strong>檢查格式與權利</strong><p>保留原檔，不處理 DRM。</p></div></li><li><span>02</span><div><strong>試譯與確認術語</strong><p>先看小段結果，再決定是否完整翻譯。</p></div></li><li><span>03</span><div><strong>完整翻譯與續跑</strong><p>沿用上下文與已確認 glossary。</p></div></li><li><span>04</span><div><strong>驗證後交付 EPUB</strong><p>PDF 的圖片文字與複雜版面可能需要人工處理。</p></div></li></ol>
+        </div>
+      </section>
+
+      <section class="section cta-section">
+        <div class="container cta-card"><div><p class="section-kicker">READ MORE / TRANSLATE BETTER</p><h2>下一本書，從譯讀開始。</h2></div><a class="button button-light" href="https://github.com/khlin712/yidu" target="_blank" rel="noopener noreferrer">前往 GitHub ↗</a></div>
+      </section>
+    </main>
+
+    <footer class="site-footer"><div class="container footer-wrap"><span>譯讀 Yidu © 2026</span><span>Built for Codex · Powered by a pinned open-source engine</span></div></footer>
+    <script src="./script.js"></script>
+  </body>
+</html>
