@@ -339,7 +339,8 @@ def prepare(book: Path, profile: str, check_only: bool = False) -> dict:
     profile = infer_profile(book, profile)
     state = read_state(root)
     if check_only:
-        if not root.exists() or not state.get(f"{profile}_ready"):
+        ready_key = "base_ready" if profile == "epub" else "pdf_ready"
+        if not root.exists() or not state.get(ready_key):
             raise RuntimeErrorMessage(
                 f"Yidu runtime 尚未準備好（profile={profile}）：{root}。"
                 "請移除 --check，讓第一次使用流程自動準備。"
@@ -367,6 +368,7 @@ def prepare(book: Path, profile: str, check_only: bool = False) -> dict:
             install_requirements(python, root, "pdf")
             check_imports(python, root, "pdf")
             state["pdf_ready"] = True
+            write_state(root, state)
         pandoc = None
         if profile == "pdf":
             pandoc = system_pandoc()
