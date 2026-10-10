@@ -11,6 +11,9 @@ Yidu uses the fixed upstream revision:
 Always prepare the runtime before reading the user's book. The wrapper is
 idempotent and handles the dependency profile:
 
+In the commands below, `$YIDU_SKILL` means the installed `skills/yidu`
+directory. Substitute its actual path if the shell variable is not set.
+
 ```bash
 python "$YIDU_SKILL/scripts/run_runtime.py" \
   --book "$BOOK" \

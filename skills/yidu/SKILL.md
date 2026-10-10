@@ -38,6 +38,10 @@ The bootstrap is idempotent and writes only below `$CODEX_HOME/runtimes/yidu/<co
 
 For upstream commands, use this shape and do not assemble a venv or PATH manually:
 
+In the examples, `$YIDU_SKILL` means the directory containing this `SKILL.md`.
+If that environment variable is not set, substitute the installed skill's
+actual path.
+
 ```bash
 python "$YIDU_SKILL/scripts/run_runtime.py" \
   --book "$BOOK" \
