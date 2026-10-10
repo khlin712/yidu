@@ -81,7 +81,7 @@
             <div class="terminal-line"><span class="line-number">01</span><code>$skill-installer https://github.com/khlin712/yidu/tree/main/skills/yidu</code></div>
             <button class="copy-button" data-copy="$skill-installer https://github.com/khlin712/yidu/tree/main/skills/yidu" type="button">複製安裝指令 <span aria-hidden="true">⧉</span></button>
             <div class="terminal-example"><span class="prompt-mark">$yidu</span><span>翻譯這本 EPUB 成台灣繁中</span></div>
-            <p class="terminal-note">安裝完成後，Yidu 會在下一個 turn 可用。PDF 也可以直接轉成可重排 EPUB。</p>
+            <p class="terminal-note">安裝完成後，下一個 turn 就能使用。第一次翻譯時自動準備專用 runtime；PDF 會另外下載 Docling／PyTorch／Pandoc，但不修改系統 Python。</p>
           </div>
         </div>
       </section>
@@ -93,7 +93,7 @@
           <div class="feature-grid">
             <article class="feature-card feature-card-dark"><div class="feature-top"><span>01</span><span class="feature-icon">⌘</span></div><h3>術語先確認</h3><p>例如確認 <code>social self-efficacy</code> 是「社會自我效能」後，同一詞義不漂移成「社交自我效能」。</p><a href="#how">看工作流程 <span>↗</span></a></article>
             <article class="feature-card"><div class="feature-top"><span>02</span><span class="feature-icon">▤</span></div><h3>兩種書籍格式</h3><p>EPUB 保留書籍結構；PDF 先檢查文字抽取與掃描品質，再轉成可重排 EPUB。</p></article>
-            <article class="feature-card"><div class="feature-top"><span>03</span><span class="feature-icon">◌</span></div><h3>Codex 直接執行</h3><p>使用你的 Codex 登入狀態與額度，不需要另外管理翻譯 API key。</p></article>
+            <article class="feature-card"><div class="feature-top"><span>03</span><span class="feature-icon">◌</span></div><h3>Codex 直接執行</h3><p>使用你的 Codex 登入狀態與額度；第一次使用時自動準備固定版本 runtime，不需要自己研究虛擬環境、Pandoc 或 API key。</p></article>
             <article class="feature-card"><div class="feature-top"><span>04</span><span class="feature-icon">↻</span></div><h3>可中斷、可驗證</h3><p>沿用 checkpoint 與 glossary，完成後檢查 EPUB 目錄、章節、metadata 與術語變體。</p></article>
           </div>
         </div>
