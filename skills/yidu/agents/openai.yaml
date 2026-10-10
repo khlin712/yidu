@@ -1,0 +1,7 @@
+interface:
+  display_name: "譯讀 Yidu — 台灣繁中"
+  short_description: "將英文 EPUB／PDF 翻成台灣繁中 EPUB 並維持術語一致性"
+  default_prompt: "Use $yidu to translate this English EPUB or PDF into Taiwan Traditional Chinese."
+
+policy:
+  allow_implicit_invocation: true
