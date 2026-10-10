@@ -1,8 +1,9 @@
 name: Deploy GitHub Pages
 
+# Optional workflow for accounts with GitHub Actions billing enabled.
+# The default deployment uses the main branch directly, so this workflow is not
+# required for the static Yidu documentation site.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
